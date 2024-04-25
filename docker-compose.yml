@@ -1,0 +1,50 @@
+version: '3'
+services:
+    reverse_proxy:
+        image: nginx
+        ports:
+            - "80:80"
+        volumes:
+            - ./html:/html
+            - ./nginx.conf:/etc/nginx/nginx.conf
+        restart: on-failure:3
+        links:
+            - database
+            - backend
+            - detect
+
+    detect:
+        build: ./detect
+        # debug only
+        #ports:
+        #    - "5000:5000"
+        volumes:
+            - ./detect:/detect
+        restart: on-failure:3
+
+    backend:
+        build: ./backend
+        # debug only
+        #ports:
+        #    - "8080:8080"
+        volumes:
+            - ./backend:/backend
+        restart: on-failure:3
+        links:
+            - database
+            - detect
+
+    database:
+        image: mariadb
+        ports:
+            - "3306:3306"
+        volumes:
+            #- mysql:/var/lib/mysql
+            - ./database/sql:/docker-entrypoint-initdb.d
+        restart: on-failure:3
+        environment:
+            MYSQL_ROOT_PASSWORD: mariadb
+            #MYSQL_USER: lain
+            #MYSQL_PASSWORD: mariadb
+#volumes:
+#    mysql:
