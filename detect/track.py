@@ -23,8 +23,6 @@ if str(ROOT) not in sys.path:
     sys.path.append(str(ROOT))  # add ROOT to PATH
 if str(ROOT / 'yolov9') not in sys.path:
     sys.path.append(str(ROOT / 'yolov9'))  # add yolov5 ROOT to PATH
-if str(ROOT / 'trackers' / 'strongsort') not in sys.path:
-    sys.path.append(str(ROOT / 'trackers' / 'strongsort'))  # add strong_sort ROOT to PATH
 
 ROOT = Path(os.path.relpath(ROOT, Path.cwd()))  # relative
 
